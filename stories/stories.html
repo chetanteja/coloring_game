@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cognitive Change</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      function speakInstructions(instructions) {
+        if ('speechSynthesis' in window) {
+          var instructionsArray = instructions.split(';');
+          var textElement = document.getElementById('text');
+          var imgElement = document.getElementById('image');
+
+
+          var englishVoice = window.speechSynthesis.getVoices().find(function(voice) {
+            return voice.lang === 'en-US' && voice.name === 'Microsoft Mark - English (United States)';
+          });
+
+          instructionsArray.forEach(function (instruction, index) {
+            setTimeout(function () {
+              var msg = new SpeechSynthesisUtterance();
+              msg.text = instruction.trim();
+              msg.voice = englishVoice;
+              window.speechSynthesis.getVoices().forEach(function(voice) {
+                console.log(voice.name, voice.lang);
+              });
+              msg.onstart = function () {
+                textElement.innerHTML = instruction;
+                imgElement.src = 'image' + index + '.jpg';
+              };
+
+              window.speechSynthesis.speak(msg);
+            }, 10000 * index);
+          });
+        } else {
+          console.log('Speech synthesis not supported');
+        }
+      }
+
+    </script>
+  </head>
+  <body>
+    <h1>Relax and listen to the sentences narrated and try to analyse yourself</h1>
+    <h2>HAVE FUN!!!</h2>
+    
+    <button onclick="speakInstructions('I love solving mathematical problems on the computer;Sometimes the homework has many questions like a test. I may not be able to finish all of them, but I must try my best.;My mom always tells me that I must finish my homework before I can do things that I enjoy.;I realize that there are only two or three minutes left, but I still have many questions to finish;My mom and the teacher will worry if they see me panic;I can take three deep breaths and count from one to three while telling myself:“Take your time.”;I can solve the problems one at a time',);">Start</button>
+    <div class="container">
+        <img id="image" style="width: 300px; height: 300px;">
+        <p id="text"></p>
+    </div>
+  </body>
+</html>
