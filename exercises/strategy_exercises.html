@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Response Modulation</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      function speakInstructions(instructions) {
+        if ('speechSynthesis' in window) {
+          var instructionsArray = instructions.split(';');
+          var textElement = document.getElementById('text');
+          var imgElement = document.getElementById('image');
+
+
+          var englishVoice = window.speechSynthesis.getVoices().find(function(voice) {
+            return voice.lang === 'en-US' && voice.name === 'Microsoft Mark - English (United States)';
+          });
+
+          instructionsArray.forEach(function (instruction, index) {
+            setTimeout(function () {
+              var msg = new SpeechSynthesisUtterance();
+              msg.text = instruction.trim();
+              msg.voice = englishVoice;
+              window.speechSynthesis.getVoices().forEach(function(voice) {
+                console.log(voice.name, voice.lang);
+              });
+              msg.onstart = function () {
+                textElement.innerHTML = instruction;
+                imgElement.src = 'image' + index + '.jpg';
+              };
+
+              window.speechSynthesis.speak(msg);
+            }, 8000 * index);
+          });
+        } else {
+          console.log('Speech synthesis not supported');
+        }
+      }
+
+    </script>
+  </head>
+  <body>
+    <h1>Relax and try to follow these steps</h1>
+    <h2>HAVE FUN!!!</h2>
+    
+    <button onclick="speakInstructions('Feeling angry or sad, do not worry follow these steps;Make Your self comfortable in the chair; Inhale and count to 3; Exhale and count to 6;Make a fist with both hands and count to 5;Relax the hands and count to 5; Look up and count to 3; Look down and count to 3;Look to the left and count to 3; Look to the right and count to 3; Raise your shoulders toward your ears and count to 3;Strech your shoulders to your back and count to 5; Inhale and count to 3; Stretch your arms above your head and count to 3; Make a fist and gently hit your shoulder saying ALL IS WELL; Look at the picture and imagine yourself sitting there',);">Start</button>
+    <div class="container">
+        <img id="image" style="width: 300px; height: 300px;">
+        <p id="text"></p>
+    </div>
+  </body>
+</html>
