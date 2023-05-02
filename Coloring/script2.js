@@ -93,3 +93,7 @@ function resizeCanvas(width, height) {
   canvas.style.height = `${height}px`;
   ctx.scale(devicePixelRatio, devicePixelRatio);
 }
+
+setTimeout(function() {
+		window.close();
+	}, 150000);
