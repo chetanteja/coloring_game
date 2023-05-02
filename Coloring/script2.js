@@ -96,4 +96,4 @@ function resizeCanvas(width, height) {
 
 setTimeout(function() {
 		window.close();
-	}, 150000);
+	}, 10000);
